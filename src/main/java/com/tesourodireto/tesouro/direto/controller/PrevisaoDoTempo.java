@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import com.tesourodireto.tesouro.direto.model.BodyWeather;
+import com.tesourodireto.tesouro.direto.model.Main;
 
 @RestController
 @RequestMapping("/tempo")
@@ -22,7 +23,7 @@ public class PrevisaoDoTempo {
 
 
     @GetMapping("/{cidade}")
-    public BodyWeather getTempo(@PathVariable String cidade){
+    public Main getTempo(@PathVariable String cidade){
         RestTemplate restTemplate = new RestTemplate();
         StringBuilder stringBuilder = new StringBuilder();
         
@@ -30,6 +31,6 @@ public class PrevisaoDoTempo {
 
         ResponseEntity<BodyWeather> entity = restTemplate.getForEntity(urlFinal, BodyWeather.class);
         
-        return entity.getBody();
+        return entity.getBody().getMain();
     }
 }
