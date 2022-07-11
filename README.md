@@ -57,6 +57,4 @@ configurar o controlador
   }
 ``` 
  
- 
- 
-Alexandre Alves de Carvalho
+
