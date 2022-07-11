@@ -2,13 +2,13 @@
 
 Criar projeto com Spring Initializr https://start.spring.io/ 
 - Java 11 
-- dependencias [ Spring Web, Spring Boot Dev tools, Lombok]
+- dependencias [ Spring Web, Dev tools, Lombok]
 
 Consumir API do tempo em https://openweathermap.org/current
 
 Em application.proprerties adicionar variaveis da aplicação
 
-  api.key=https://openweathermap.org/api
+  api.key= criar a api Key no site.. https://openweathermap.org/api
 
   url.api=https://api.openweathermap.org/data/2.5/weather?q=      *Buscar por cidade*
 
