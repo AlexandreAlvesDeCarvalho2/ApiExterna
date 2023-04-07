@@ -37,3 +37,56 @@ public class PrevisaoDoTempoService {
 
 
 }
+
+
+
+
+import okhttp3.*;
+
+import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.List;
+
+import com.google.gson.Gson;
+
+public class HttpClient {
+
+    private final OkHttpClient client = new OkHttpClient();
+    private final Gson gson = new Gson();
+
+    public <T> T sendRequest(String url, String requestBody, String method, List<QueryParam> queryParams, List<Header> headers, Type responseType) throws IOException {
+
+        HttpUrl.Builder urlBuilder = HttpUrl.parse(url).newBuilder();
+
+        if (queryParams != null && !queryParams.isEmpty()) {
+            for (QueryParam param : queryParams) {
+                urlBuilder.addQueryParameter(param.getName(), param.getValue());
+            }
+        }
+
+        RequestBody body = null;
+        if (requestBody != null && !requestBody.isEmpty()) {
+            body = RequestBody.create(requestBody, MediaType.parse("application/json; charset=utf-8"));
+        }
+
+        Request.Builder requestBuilder = new Request.Builder()
+                .url(urlBuilder.build())
+                .method(method, body);
+
+        if (headers != null && !headers.isEmpty()) {
+            for (Header header : headers) {
+                requestBuilder.addHeader(header.getName(), header.getValue());
+            }
+        }
+
+        Request request = requestBuilder.build();
+
+        try (Response response = client.newCall(request).execute()) {
+            if (!response.isSuccessful()) {
+                throw new IOException("Unexpected code " + response);
+            }
+            String responseBody = response.body().string();
+            return gson.fromJson(responseBody, responseType);
+        }
+    }
+}
